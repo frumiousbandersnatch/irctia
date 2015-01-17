@@ -1,0 +1,18 @@
+#+TITLE: IRC Total Information Awareness
+
+The "irctia" module keeps track of the populace of IRC channels.  It maintains a database of
+
+ - joins
+ - parts
+ - quits
+ - kicks
+ - bans
+ - nick changes.
+
+It lets you answer questions like:
+
+ - "In order, what are the nicks a given nick has used since joining?"
+ - "For a given nick, user or host, what nick user and host has been used in the past?"
+ - "What bans was placed on a given nick, user or host and how long did they last?"
+
+

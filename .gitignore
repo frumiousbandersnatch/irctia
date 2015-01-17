@@ -1,0 +1,9 @@
+*~
+*.pyc
+venv
+build
+*.egg-info
+dist
+*.db
+*.sqlite*
+cut.py
