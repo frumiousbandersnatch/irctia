@@ -64,6 +64,10 @@ def next_nick(ses, obj):
     next = next.filter(Nick.id != obj.id) 
     if not next: return         # should never run
 
+    nick_change = next.filter(Nick.kind == 'nick')
+    all_others = next.filter(Nick.kind != 'nick' and Nick.channel == obj.channel)
+    next = nick_change.union(all_others)
+
     next = next.order_by(Nick.stamp) # ascending
     return next.first()
 
