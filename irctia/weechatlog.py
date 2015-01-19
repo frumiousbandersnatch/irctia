@@ -11,7 +11,7 @@ import sys
 
 from datetime import datetime
 
-import models
+from models import Nick, Ban
 
 joinmarkers = ['▬▬▶']
 partmarkers = ['◀▬▬']
@@ -44,24 +44,24 @@ def parse_line (line, channel):
 
     if what in joinmarkers:
         n,u,h,c = re.match(re_join, text).groups()
-        return models.Join(channel=c, stamp=stamp, nick=n, user=u, host=h)
+        return Nick(kind = 'join', channel=c, stamp=stamp, new=n, user=u, host=h)
 
     if what in partmarkers:
 
         pm = re.match(re_part, text)
         if pm:
             n,u,h,c,_ = pm.groups()
-            return models.Part(kind='part',channel=c,stamp=stamp,nick=n,user=u,host=h)
+            return Nick(kind='part',channel=c,stamp=stamp,old=n,user=u,host=h)
 
         qm = re.match(re_quit, text)
         if qm:
             n,u,h,c,_ = qm.groups()
-            return models.Part(kind='quit',channel=c,stamp=stamp,nick=n,user=u,host=h)
+            return Nick(kind='quit',channel=channel,stamp=stamp,old=n,user=u,host=h)
 
         km = re.match(re_kick, text)
         if km:
             _, nick, _ = km.groups()
-            return models.Part(kind='kick',channel=channel,stamp=stamp,nick=nick)
+            return Nick(kind='kick',channel=channel,stamp=stamp,old=nick)
 
         return
 
@@ -69,7 +69,7 @@ def parse_line (line, channel):
         nick_m = re.match(re_nick, text)
         if nick_m:
             old, new = nick_m.groups()
-            return models.Nick(channel=channel, stamp=stamp, old=old, new=new)
+            return Nick(kind='nick', channel=channel, stamp=stamp, old=old, new=new)
 
         # check for ban
         mode_m = re.match(re_mode, text)
@@ -78,7 +78,7 @@ def parse_line (line, channel):
             if flag[1] != 'b': 
                 return          # bail out, if add support for other Mode, rework this
             kind = flag[0]
-            return models.Ban(kind=kind, channel=chan, stamp=stamp, mask=mask, oper=oper)
+            return Ban(kind=kind, channel=chan, stamp=stamp, mask=mask, oper=oper)
 
         return None
 

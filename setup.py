@@ -12,6 +12,7 @@ setup(
     [console_scripts]
     irctia-weechat = irctia.weechatlog:backfill
     irctia-joins = irctia.queries:joins
+    irctia-trail = irctia.queries:trail
     ''',
 )
 # fixme: turn these single-command entries into one grouped main
