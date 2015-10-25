@@ -45,3 +45,11 @@ class Ban(Base):
     def __repr__(self):
         return "<Ban('%s' %sb'ed from '%s' by '%s' at '%s')>" % \
             (self.mask, self.kind, self.channel, self.oper, self.stamp)
+
+# IRC 319
+class Chanlist(Base):
+    __tablename__ = 'chans'
+    id = Column(Integer, primary_key=True)
+    nick = Column(String)
+    chanlist = Column(String, nullable = False)
+    stamp = Column(DateTime, nullable = False)

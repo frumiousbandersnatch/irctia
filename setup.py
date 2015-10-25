@@ -13,6 +13,7 @@ setup(
     irctia-weechat = irctia.weechatlog:backfill
     irctia-joins = irctia.queries:joins
     irctia-trail = irctia.queries:trail
+    irctia-chans = irctia.queries:chans
     ''',
 )
 # fixme: turn these single-command entries into one grouped main

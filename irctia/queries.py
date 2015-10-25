@@ -4,7 +4,7 @@ Make some queries on the database
 '''
 
 import session
-from models import Nick
+from models import Nick, Chanlist
 
 import click
 
@@ -112,3 +112,20 @@ def trail(nick, user, host, timestamp, channel, verbose, dburl):
     for obj in iter_trail(ses, start):
         print ('[%s] %s %s -> %s' % (obj.kind, obj.stamp, obj.old, obj.new))
 
+
+@click.command()
+@click.option('-n','--nick', default=None,
+              help='Set a pattern to match on the nick')
+@click.option('-V','--verbose', is_flag=True, default=False)
+@click.argument('dburl')
+def chans(nick, verbose, dburl):
+    '''
+    Find matching joins.
+    '''
+    ses = session.get(dburl, echo=verbose)
+    q = ses.query(Chanlist).filter(Chanlist.nick == nick)
+
+    res = [(o.stamp,o.nick,o.chanlist) for o in q]
+    res.sort()
+    for o in res:
+        click.echo(str(o))
